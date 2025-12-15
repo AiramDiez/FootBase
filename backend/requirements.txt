@@ -1,0 +1,23 @@
+# --- Framework principal ---
+fastapi
+uvicorn[standard]
+
+# --- Base de datos ---
+neo4j
+python-dotenv
+
+# --- Modelos y validación ---
+pydantic
+
+# --- AI / LlamaIndex (versiones compatibles reales)
+llama-index==0.9.48
+llama-index-graph-stores-neo4j==0.2.12
+
+# --- Utilidades ---
+requests
+cryptography
+loguru
+
+# --- Groq AI ---
+groq
+

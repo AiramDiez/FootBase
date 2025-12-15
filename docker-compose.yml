@@ -1,0 +1,69 @@
+services:
+  # -----------------------------------------------------------
+  # 🧱 Neo4j - Base de datos grafo
+  # -----------------------------------------------------------
+  neo4j:
+    image: neo4j:5.10
+    container_name: sibi-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # Neo4j Browser
+      - "7687:7687"   # Bolt protocol
+    environment:
+      - NEO4J_AUTH=neo4j/recovery123
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+    volumes:
+      - ./neo4j/data:/data
+      - ./neo4j/init.cypher:/docker-entrypoint-initdb.d/init.cypher:ro
+    networks:
+      - sibi-network
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "recovery123", "RETURN 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  # -----------------------------------------------------------
+  # ⚙️ Backend (FastAPI + LlamaIndex + Groq)
+  # -----------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+    container_name: sibi-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      neo4j:
+        condition: service_healthy
+
+    # 🔥 Lee automáticamente tus variables del archivo .env
+    env_file:
+      - .env
+
+    environment:
+      NEO4J_URI: bolt://sibi-neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASS: recovery123
+      API_KEY: seleccionador123
+
+      # 🔥 GROQ – Modelo por defecto
+      GROQ_MODEL: llama-3.1-8b-instant
+
+    volumes:
+      # Solo cargamos datasets, NO pisamos el código del contenedor
+      - ./datasets:/app/datasets
+
+    networks:
+      - sibi-network
+    command: >
+      sh -c "
+      python -m webbrowser -t 'http://localhost:8000/health' &&
+      uvicorn app.main:app --host 0.0.0.0 --port 8000
+      "
+
+networks:
+  sibi-network:
+    driver: bridge
