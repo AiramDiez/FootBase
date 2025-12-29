@@ -6,7 +6,7 @@ import time
 API_URL = "http://localhost:8000/api/query/public"
 
 st.set_page_config(
-    page_title="SIBI - Seleccionador Inteligente ⚽",
+    page_title="FootBase - Seleccionador Inteligente ⚽",
     page_icon="⚽",
     layout="wide",
 )
@@ -35,10 +35,10 @@ st.markdown("""
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
-        {"role": "ai", "content": "¡Hola! 👋 Soy *SIBI*, tu seleccionador inteligente. Pídeme convocatorias, ajustes o estadísticas de jugadores."}
+        {"role": "ai", "content": "¡Hola! 👋 Soy *FootBase*, tu seleccionador inteligente. Pídeme convocatorias, ajustes o estadísticas de jugadores."}
     ]
 
-st.title("⚽ SIBI - Seleccionador Inteligente v2.1")
+st.title("⚽ FootBase - Seleccionador Inteligente v2.1")
 st.markdown("#### Tu asistente de selección nacional basado en IA 🧠")
 
 # Mostrar historial
@@ -46,7 +46,7 @@ for msg in st.session_state["messages"]:
     if msg["role"] == "user":
         st.markdown(f"<div class='chat-bubble-user'><b>Tú:</b><br>{msg['content']}</div>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<div class='chat-bubble-ai'><b>SIBI:</b><br>{msg['content']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='chat-bubble-ai'><b>FootBase:</b><br>{msg['content']}</div>", unsafe_allow_html=True)
 
 user_input = st.text_input("Escribe tu consulta aquí...")
 
@@ -74,7 +74,7 @@ if user_input:
 
                 st.session_state["messages"].append({"role": "ai", "content": ai_msg})
                 st.markdown(
-                    f"<div class='chat-bubble-ai'><b>SIBI:</b><br>{ai_msg}</div>",
+                    f"<div class='chat-bubble-ai'><b>FootBase:</b><br>{ai_msg}</div>",
                     unsafe_allow_html=True
                 )
                 st.caption(f"⏱️ Respondido en {duration}s")
