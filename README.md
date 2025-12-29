@@ -106,11 +106,11 @@ La interfaz está desarrollada con **Streamlit** y presenta:
 
 ## 👤 Autor
 
-**Airam Díez**
+**Airam Diez Flecha**
 
-- GitHub: https://github.com/tu-usuario
-- LinkedIn: https://www.linkedin.com/in/tu-perfil
-- Email: tuemail@correo.com
+- GitHub: https://github.com/AiramDiez
+- LinkedIn: https://www.linkedin.com/in/airam-diez-flecha-a356081b0/
+- Email: adiezf07@estudiantes.unileon.es
 
 ---
 
